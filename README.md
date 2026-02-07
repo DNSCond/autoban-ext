@@ -92,3 +92,12 @@ simply write their username in the subreddit config on the developers.reddit.com
 
 [https://developers.reddit.com/apps/autoban-ext](https://developers.reddit.com/apps/autoban-ext),
 [https://github.com/DNSCond/autoban-ext](https://github.com/DNSCond/autoban-ext).
+
+## See Also
+
+### Custom Mute (u/custommute)
+
+for the command in modmail and to mute.
+
+[https://developers.reddit.com/apps/custommute/](https://developers.reddit.com/apps/custommute/),
+[https://github.com/DNSCond/custommute](https://github.com/DNSCond/custommute)
