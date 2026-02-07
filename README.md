@@ -87,3 +87,8 @@ but automoderator is the bot that cant ban natively.
 
 to have any other person or bot be able to use the commannd i described above.
 simply write their username in the subreddit config on the developers.reddit.com site.
+
+## u/autoban-ext's socials
+
+[https://developers.reddit.com/apps/autoban-ext](https://developers.reddit.com/apps/autoban-ext),
+[https://github.com/DNSCond/autoban-ext](https://github.com/DNSCond/autoban-ext).
