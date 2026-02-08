@@ -26,15 +26,47 @@ export function normalizeNewlines(of: string) {
   return splitLinesPythonStyle(of).join("\n");
 }
 
-export function parseNamedBlocks(string: string) {
-  const result: any = new Object;
+
+export function parseNamedBlocks(string: string, options?: {
+  duplicateDisambiguation?: "last" | "error" | "concat",
+} | undefined): { [key: string]: string }
+export function parseNamedBlocks(string: string, options?: {
+  duplicateDisambiguation?: "array",
+} | undefined): { [key: string]: string[] }
+export function parseNamedBlocks(string: string, options: {
+  duplicateDisambiguation?: "last" | "error" | "array" | "concat",
+} | undefined = {}): { [key: string]: string | string[] } {
+  const duplicateDisambiguation = options?.duplicateDisambiguation
+    ?? 'last', result: any = Object.create(null),
+     apply = ((key: string, stringArray: string[]) => {
+      if (duplicateDisambiguation === 'error') {
+        if (Object.hasOwn(result, key))
+          throw TypeError(`key "${key}" appears more than once`);
+      } else if (duplicateDisambiguation === 'array') {
+        if (Object.hasOwn(result, key)) {
+          result[key][result[key].length] = stringArray.join('\n');
+        } else {
+          result[key] = [stringArray.join('\n')];
+        }
+        return;
+      } else if (duplicateDisambiguation === 'concat') {
+        const value = '\n\n' + stringArray.join('\n');
+        if (Object.hasOwn(result, key)) {
+          result[key] += value;
+        } else {
+          result[key] = value;
+        }
+      }
+      result[key] = stringArray.join('\n');
+    });
 
   for (const element of chunkArrayAt(splitLinesPythonStyle(string), str => str === '---', true)) {
-    const match = /^name: (.+)/i.exec(element[0]);
+    if (element.length === 0) continue;
+    const match = /^name: (.+)/i.exec(element[0])?.[1].trim();
     if (match) {
-      result[match[1].trim()] = element.slice(1).join('\n');
+      apply(match, element.slice(1));
     } else {
-      result[''] = element.join('\n');
+      apply(String(), element);
     }
   }
   return result;

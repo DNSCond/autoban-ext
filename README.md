@@ -2,7 +2,7 @@
 
 Automoderator Ban Extension is a devvit app that bans users on behalf of automoderator.
 
-to ban a user via automodertaor simply write "`!ban user 10 "reason"`" in the automoderator config.
+to ban a user via automoderator simply write "`!ban user 10 "reason"`" in the automoderator config.
 
 the "`!ban user`" can be in any case and the space is optional.  
 the "`10`" is the number of days to ban for, you can also use the word "`permanent`" (case-insensitive) for a permanent ban (0 for permanent also works).
@@ -90,7 +90,7 @@ simply write their username in the subreddit config on the developers.reddit.com
 
 ## u/autoban-ext's socials
 
-[https://developers.reddit.com/apps/autoban-ext](https://developers.reddit.com/apps/autoban-ext),
+[https://developers.reddit.com/apps/autoban-ext/](https://developers.reddit.com/apps/autoban-ext/),
 [https://github.com/DNSCond/autoban-ext](https://github.com/DNSCond/autoban-ext).
 
 ## See Also
