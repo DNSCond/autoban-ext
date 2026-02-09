@@ -1,88 +1,36 @@
 # Named Block Text Format
 
-This format stores **text blocks with optional names**. It is designed to be **human-readable and human-editable**, perfect for templates, autoresponders, or simple key/value content.
+the Named Block Text Format consists of Blocks.
 
----
+- each Block is seperated by "`---`" on a line of its own.
+- Optional `name`: line defines the block’s key. Only the text after `name`: is used as the key.
+  - while optional, if you do not put a "`name: `" its name will be the empty string, which is rarely what you want.
+- everything after that until the end of the block is the value. Any text is allowed in the value, except a line consisting solely of --- (used to start a new block)..
 
-## 1. File Structure
+## examples
 
-* Each **block** consists of:
-
-  1. Optional **name line**:
-
-     ```
-     name: BLOCK_NAME
-     ```
-
-     * If omitted, the block uses the default empty key `""`.
-  2. **Block content**: any text lines after the name line.
-
-     * Can include empty lines.
-     * Indentation is preserved; optional dedent may be applied by parser.
-* Blocks are **separated by a line containing only `---`**:
-
-```text
-name: GREETING
-Hello, world!
-How are you?
----
-name: FAREWELL
-Goodbye!
-See you later!
 ```
+name: documentation
+# Named Block Text Format
 
+the Named Block Text Format consists of Blocks.
+
+- each Block is seperated by "`---`" on a line of its own.
+- Optional `name`: line defines the block’s key. Only the text after `name`: is used as the key.
+  - while optional, if you do not put a "`name: `" its name will be the empty string, which is rarely what you want.
+- everything after that until the end of the block is the value. Any text is allowed in the value, except a line consisting solely of --- (used to start a new block)..
 ---
-
-## 2. Key Rules
-
-* Only the **first line starting with `name:`** is interpreted as the key.
-* All lines after the first line belong to the block **value**.
-* Values can contain any characters, including `name:` (except an unindented `---`, which is treated as a block separator).
-
+name: "edge case"
+these quotes are part of the resulting string.
 ---
-
-## 3. Optional Features
-
-* **Dedent**: Leading spaces in the block value can be automatically removed to keep indentation for readability.
-* **Duplicate handling**: Parsers may support options for blocks with the same name:
-
-  * `"last"` → last block wins (default)
-  * `"concat"` → join multiple blocks with `\n\n`
-  * `"array"` → store all occurrences in an array
-  * `"error"` → throw an error on duplicate keys
-
+this block's name is "" in javascript.
 ---
-
-## 4. Writing Tips
-
-1. Keep `---` on its own line to separate blocks.
-2. Indent multiline values for readability — optional dedent will remove leading whitespace.
-3. Use only simple ASCII or UTF-8 characters for keys.
-4. Avoid putting `---` at the start of any content line unless indented.
-
+name: warning
+please be careful if your text starts with `name: `, you should always use a name explicitly
 ---
+name: "edge case 2"
+name: "edgy Text"
+note that trying to use 2 names doesnt work.
 
-## 5. Example File
-
-```text
-name: WELCOME
-Hello, new user!
-Welcome to the system.
----
-name: FAREWELL
-Goodbye, friend.
-See you next time!
----
-# unnamed block
-Just some general text without a name.
-```
-
-* This parses to a map/dictionary like:
-
-```ts
-{
-  "WELCOME": "Hello, new user!\nWelcome to the system.",
-  "FAREWELL": "Goodbye, friend.\nSee you next time!",
-  "": "Just some general text without a name."
-}
+Only the first name: line in a block is treated as the key. Any subsequent name: lines are part of the value.”
 ```
