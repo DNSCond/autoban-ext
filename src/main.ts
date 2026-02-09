@@ -15,7 +15,7 @@ Devvit.addSettings([
   },
   {
     type: 'string',
-    name: 'users',
+    name: 'allowed-users',
     label: 'Allow banning from (case-insensitive)',
     helpText: 'comma seperated usernames without the u/. i reccomend only putting bots to prevent abuse',
     defaultValue: 'Automoderator',
@@ -30,12 +30,12 @@ Devvit.addTrigger({
       body = event.comment?.body, automodComment = event.comment;
 
     if (body && automodComment) {
-      const list = (await context.settings.get<string>('messages'))?.toLowerCase().split(/,/g).map(str => str.trim()),
-        summonedBy = automodComment.author;
-      if (list?.length) {
-        if (!list.includes(summonedBy.toLowerCase())) return;
-      } else return;
-
+      const list = (await context.settings.get<string>('allowed-users'))?.toLowerCase().split(/,/g).map(str => str.trim()),
+        summonedBy = (await context.reddit.getUserById(automodComment.author))?.username;
+      if (list?.length && summonedBy) {
+        const summonedByLower = summonedBy.toLowerCase();
+        if (!list.includes(summonedByLower)) return console.log(`summonedByLower (${summonedByLower}) is not in ["${list.join('", "')}"]`);
+      } else return console.log(`list or summonedBy is empty or undefined`);
 
       const userItem = await getItemById(automodComment.parentId, context);
       console.log(userItem?.id, automodComment.parentId);
